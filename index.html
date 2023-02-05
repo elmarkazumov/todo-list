@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>todo list</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <main class="main">
+        <form class="main__block">
+            <div class="main__input">
+                <input class="main__entry" type="text" placeholder="task" required>
+                <input class="main__button" type="submit" value="Add">
+
+                <select size="1" class="main__select" name="priority" id="">
+                    <option>Priority</option>
+                    <option value="High">High</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <div class="main__tasks">
+                <div class="main__actual">
+
+                </div>
+
+                <div class="main__completed">
+
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script type="module" src="./js/app.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+    <script type="module" src="./js/const.js"></script>
+</body>
+</html>
