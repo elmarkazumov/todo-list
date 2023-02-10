@@ -1,27 +1,39 @@
 import {UIELEMENTS} from './const.js';
-
-function conversionDate(){
-    const zeroCorrect = (value) => (value < 10) ? `0${value}`: value;
-
-    const newDate = new Date();
-    const getDate = zeroCorrect(newDate.getDate());
-    const getMounth = zeroCorrect(newDate.getMonth() + 1);
-    const getTime = `${zeroCorrect(newDate.getHours())}:${zeroCorrect(newDate.getMinutes())}`;
-    const date = `${getDate}.${getMounth}, ${getTime}`;
-    return date;
-}
+import {conversionDate} from './additional.js';
+import {addTaskInDOM} from './ui.js';
 
 function getDataTask(){
     const newTask = {
         task: UIELEMENTS.taskInput.value,
         priority: UIELEMENTS.taskPriority.value,
         createDate: conversionDate(),
+        status: 'active',
     };
     return newTask;
 }
 
+function render(){
+    while(UIELEMENTS.taskActual.firstChild){
+        UIELEMENTS.taskActual.removeChild(UIELEMENTS.taskActual.firstChild);
+    }
+
+    for(let key of JSON.parse(localStorage.getItem('tasks')).reverse()){
+        addTaskInDOM(key.task, key.createDate);
+    }
+}
+
 function createTask(event){
-    
+    event.preventDefault();
+    const currentDataTask = getDataTask();
+
+    if(!localStorage.length){
+        localStorage.setItem('tasks', JSON.stringify([currentDataTask]));
+    } else{
+        const arrayTasks = JSON.parse(localStorage.getItem('tasks'));
+        arrayTasks.push(currentDataTask);
+        localStorage.setItem('tasks', JSON.stringify(arrayTasks));
+    }
+    render();
 }
 
 UIELEMENTS.inputsForm.addEventListener("submit", createTask);
