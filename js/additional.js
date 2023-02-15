@@ -9,3 +9,11 @@ export function conversionDate(){
     const date = `${getDate}.${getMounth}.${getYear}, ${getTime}`;
     return date;
 }
+
+export function getID(){
+    if(!localStorage.length){
+        return Number(0);
+    } else{
+    return JSON.parse(localStorage.getItem('tasks')).pop().id + 1;
+    }
+}

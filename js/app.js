@@ -1,9 +1,10 @@
 import {UIELEMENTS} from './const.js';
-import {conversionDate} from './additional.js';
-import {addTaskInDOM} from './ui.js';
+import {conversionDate, getID} from './additional.js';
+import {addTaskInDOM, editElement} from './ui.js';
 
 function getDataTask(){
     const newTask = {
+        id: getID(),
         task: UIELEMENTS.taskInput.value,
         priority: UIELEMENTS.taskPriority.value,
         createDate: conversionDate(),
@@ -13,13 +14,14 @@ function getDataTask(){
 }
 
 function render(){
-    while(UIELEMENTS.taskActual.firstChild){
-        UIELEMENTS.taskActual.removeChild(UIELEMENTS.taskActual.firstChild);
+    while(UIELEMENTS.taskBlock.firstChild){
+        UIELEMENTS.taskBlock.removeChild(UIELEMENTS.taskBlock.firstChild);
+    }
+    for(let key of JSON.parse(localStorage.getItem('tasks')).reverse()){
+        addTaskInDOM(key.task, key.createDate, key.id);
     }
 
-    for(let key of JSON.parse(localStorage.getItem('tasks')).reverse()){
-        addTaskInDOM(key.task, key.createDate);
-    }
+    editTask();
 }
 
 function createTask(event){
@@ -36,4 +38,24 @@ function createTask(event){
     render();
 }
 
+
+// Хорошо подумать над этой функцией, а то цикл в цикле ну такое се...
+function editTask(){
+    const taskElement = document.querySelectorAll(".main__task"); // инициализируем все отображенные задачи
+    const parseArray = JSON.parse(localStorage.getItem('tasks'));
+
+    taskElement.forEach(task => task.addEventListener('click', function(){
+        for(let parseTask of parseArray){
+            if(parseTask.id == task.dataset.id){
+                editElement(task, parseTask, (resultText) => {
+                    parseTask.task = resultText;
+                    localStorage.setItem('tasks', JSON.stringify(parseArray));
+                });
+            };
+        };
+    }));
+};
+
 UIELEMENTS.inputsForm.addEventListener("submit", createTask);
+
+render();
