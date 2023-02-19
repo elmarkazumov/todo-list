@@ -8,9 +8,12 @@ export function addTaskInDOM(valueTask, createDateTask, id){
     text.textContent = valueTask;
     const createDate = document.createElement('span');
     createDate.textContent = createDateTask;
-    div.append(text, createDate);
+    const closeButton = document.createElement('span')
+    closeButton.textContent = 'X';
+    closeButton.classList = 'main__remove-btn';
+    div.append(text, createDate, closeButton);
     UIELEMENTS.taskBlock.append(div);
-}
+};
 
 export function editElement(taskElement, text, callback){
     const input = document.createElement('input');
@@ -27,4 +30,8 @@ export function editElement(taskElement, text, callback){
             callback(p.textContent);
         };
     });
-}
+};
+
+export function deleteTaskDOM(){
+    
+};

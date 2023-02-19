@@ -11,7 +11,7 @@ function getDataTask(){
         status: 'active',
     };
     return newTask;
-}
+};
 
 function render(){
     while(UIELEMENTS.taskBlock.firstChild){
@@ -22,7 +22,8 @@ function render(){
     }
 
     editTask();
-}
+    deleteTask();
+};
 
 function createTask(event){
     event.preventDefault();
@@ -36,15 +37,13 @@ function createTask(event){
         localStorage.setItem('tasks', JSON.stringify(arrayTasks));
     }
     render();
-}
+};
 
-
-// Хорошо подумать над этой функцией, а то цикл в цикле ну такое се...
 function editTask(){
     const taskElement = document.querySelectorAll(".main__task"); // инициализируем все отображенные задачи
     const parseArray = JSON.parse(localStorage.getItem('tasks'));
 
-    taskElement.forEach(task => task.addEventListener('click', function(){
+    taskElement.forEach(task => task.querySelector('.main__task p').addEventListener('click', function(){
         for(let parseTask of parseArray){
             if(parseTask.id == task.dataset.id){
                 editElement(task, parseTask, (resultText) => {
@@ -55,6 +54,25 @@ function editTask(){
         };
     }));
 };
+
+function deleteTask(){
+    const taskElement = document.querySelectorAll(".main__task"); // инициализируем все отображенные задачи
+    const parseArray = JSON.parse(localStorage.getItem('tasks'));
+
+    taskElement.forEach(task => task.querySelector('.main__remove-btn').addEventListener('click', function(){
+        for(let parseTask of parseArray){
+            if(parseTask.id == task.dataset.id){
+                task.remove();
+                parseArray.splice(parseArray.indexOf(parseTask), 1);
+                localStorage.setItem('tasks', JSON.stringify(parseArray));
+            };
+        };
+    }));
+
+    if(!parseArray.length){
+        localStorage.clear();
+    }
+}
 
 UIELEMENTS.inputsForm.addEventListener("submit", createTask);
 
