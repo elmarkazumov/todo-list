@@ -1,5 +1,5 @@
 import {UIELEMENTS} from './const.js';
-import {conversionDate, getID} from './additional.js';
+import {conversionDate, getID, selectBackgroundColor} from './additional.js';
 import {addTaskInDOM, editElement} from './ui.js';
 
 function getDataTask(){
@@ -18,11 +18,12 @@ function render(){
         UIELEMENTS.taskBlock.removeChild(UIELEMENTS.taskBlock.firstChild);
     }
     for(let key of JSON.parse(localStorage.getItem('tasks')).reverse()){
-        addTaskInDOM(key.task, key.createDate, key.id);
+        addTaskInDOM(key.task, key.createDate, key.id, key.priority);
     }
 
     editTask();
     deleteTask();
+    selectBackgroundColor();
 };
 
 function createTask(event){
@@ -56,7 +57,7 @@ function editTask(){
 };
 
 function deleteTask(){
-    const taskElement = document.querySelectorAll(".main__task"); // инициализируем все отображенные задачи
+    const taskElement = document.querySelectorAll(".main__task");
     const parseArray = JSON.parse(localStorage.getItem('tasks'));
 
     taskElement.forEach(task => task.querySelector('.main__remove-btn').addEventListener('click', function(){
@@ -68,11 +69,9 @@ function deleteTask(){
             };
         };
     }));
-
-    if(!parseArray.length){
-        localStorage.clear();
-    }
 }
+
+
 
 UIELEMENTS.inputsForm.addEventListener("submit", createTask);
 

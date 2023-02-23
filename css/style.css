@@ -6,7 +6,6 @@
 }
 
 body{
-    background-color: #AEB8A4;
     font-family: 'Noto Sans', sans-serif;
 }
 
@@ -26,6 +25,7 @@ body{
     width: 700px;
     border-radius: 5px;
     background-color: #f5f6f6f6;
+    border: 1px solid #c0c3c7;
 }
 
 .main__blocks{
@@ -81,6 +81,19 @@ body{
     padding: 5px;
     background-color: rgb(233, 233, 233);
     border: 1px solid rgb(202, 202, 202);
+    border-left-width: 2px;
+}
+
+.high-task{
+    border-left-color: #FF2D55;
+}
+
+.low-task{
+    border-left-color: #0A84FF;
+}
+
+.standard-task{
+    border-left-color: #48484A;
 }
 
 .main__task input{
@@ -103,4 +116,41 @@ body{
 .main__inactive{
     opacity: 0.4;
     text-decoration: line-through;
+}
+
+.main__select-button{
+    background-image: url('../img/changebackcolor.svg');
+    background-size: 30px;
+    padding-top: 30px;
+    width: 30px;
+}
+
+.main__selector{
+    position: absolute;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100px;
+    height: 35px;
+    background-color: #f5f6f6f6;
+    border: 1px solid #c0c3c7;
+}
+
+.main__selector [data-color] {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #c0c3c7;
+}
+
+.main__selector [data-color="#565656"]{
+    background-color: #565656;
+}
+
+.main__selector [data-color="#AEB8A4"]{
+    background-color: #AEB8A4;
+}
+
+.main__selector [data-color="#f6f8fa"]{
+    background-color: #f6f8fa;
 }

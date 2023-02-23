@@ -13,7 +13,15 @@ export function conversionDate(){
 export function getID(){
     if(!localStorage.length){
         return Number(0);
+    }else if(!JSON.parse(localStorage.getItem('tasks')).length){
+        return Number(0);
     } else{
-    return JSON.parse(localStorage.getItem('tasks')).pop().id + 1;
+        return JSON.parse(localStorage.getItem('tasks')).pop().id + 1;
+    }
+}
+
+export function selectBackgroundColor(){
+    if(JSON.parse(localStorage.getItem('backgroundColor'))){
+        document.body.style.backgroundColor = JSON.parse(localStorage.getItem('backgroundColor'));
     }
 }

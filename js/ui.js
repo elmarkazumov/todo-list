@@ -1,14 +1,23 @@
 import {UIELEMENTS} from './const.js';
 
-export function addTaskInDOM(valueTask, createDateTask, id){
+export function addTaskInDOM(valueTask, createDateTask, id, key){
     const div = document.createElement('div');
     div.setAttribute('data-id', id);
     div.classList = 'main__task';
+
+    if(key == 'High'){
+        div.classList.add('high-task');
+    } else if(key == 'Low'){
+        div.classList.add('low-task');
+    } else{
+        div.classList.add('standard-task');
+    }
+
     const text = document.createElement('p');
     text.textContent = valueTask;
     const createDate = document.createElement('span');
     createDate.textContent = createDateTask;
-    const closeButton = document.createElement('span')
+    const closeButton = document.createElement('span');
     closeButton.textContent = 'X';
     closeButton.classList = 'main__remove-btn';
     div.append(text, createDate, closeButton);
@@ -16,22 +25,35 @@ export function addTaskInDOM(valueTask, createDateTask, id){
 };
 
 export function editElement(taskElement, text, callback){
-    const input = document.createElement('input');
-    input.setAttribute('value', text.task);
+    const textarea = document.createElement('textarea');
+    textarea.textContent = text.task;
     taskElement.querySelector('p').remove();
-    taskElement.prepend(input);
+    taskElement.prepend(textarea);
 
-    input.addEventListener('keydown', (event) => {
-        if(event.key == "Enter" && input.value !== ''){
+    textarea.addEventListener('keydown', (event) => {
+        if(event.key == "Enter" && textarea.value !== ''){
             const p = document.createElement('p');
-            p.textContent = input.value;
-            taskElement.removeChild(input);
+            p.textContent = textarea.value;
+            taskElement.removeChild(textarea);
             taskElement.prepend(p);
             callback(p.textContent);
         };
     });
 };
 
-export function deleteTaskDOM(){
-    
+export function changeBackgroundColor(){
+
+    document.addEventListener('click', function(event){
+        
+        if(event.target.parentElement === UIELEMENTS.changeColorWindow){
+            UIELEMENTS.changeColorWindow.append(windowChangeColor.content.cloneNode(true));
+
+            UIELEMENTS.changeColorWindow.querySelectorAll('[data-color]').forEach(colorBack => colorBack.addEventListener('click', function(){
+                document.body.style.backgroundColor = colorBack.dataset.color;
+                localStorage.setItem('backgroundColor', JSON.stringify(colorBack.dataset.color));
+                document.querySelector('.main__selector').remove();
+            }));
+        };
+    });
 };
+changeBackgroundColor();
