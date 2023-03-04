@@ -1,6 +1,6 @@
 import {UIELEMENTS} from './const.js';
-import {conversionDate, getID, selectBackgroundColor} from './additional.js';
-import {addTaskInDOM, editElement} from './ui.js';
+import {conversionDate, getID, selectBackgroundColor, taskHandler} from './additional.js';
+import {addTaskInDOM, editElement, changeStatusElement} from './ui.js';
 
 function getDataTask(){
     const newTask = {
@@ -24,6 +24,7 @@ function render(){
     editTask();
     deleteTask();
     selectBackgroundColor();
+    changeStatusTask();
 };
 
 function createTask(event){
@@ -41,37 +42,37 @@ function createTask(event){
 };
 
 function editTask(){
-    const taskElement = document.querySelectorAll(".main__task"); // инициализируем все отображенные задачи
-    const parseArray = JSON.parse(localStorage.getItem('tasks'));
-
-    taskElement.forEach(task => task.querySelector('.main__task p').addEventListener('click', function(){
-        for(let parseTask of parseArray){
-            if(parseTask.id == task.dataset.id){
-                editElement(task, parseTask, (resultText) => {
-                    parseTask.task = resultText;
-                    localStorage.setItem('tasks', JSON.stringify(parseArray));
-                });
-            };
+    taskHandler('.main__change-btn', (task, parseTask, parseArray) =>{
+        if(parseTask.id == task.dataset.id){
+            editElement(task, parseTask, (resultText) => {
+                parseTask.task = resultText;
+                localStorage.setItem('tasks', JSON.stringify(parseArray));
+            });
         };
-    }));
+    });
 };
 
-function deleteTask(){
-    const taskElement = document.querySelectorAll(".main__task");
-    const parseArray = JSON.parse(localStorage.getItem('tasks'));
-
-    taskElement.forEach(task => task.querySelector('.main__remove-btn').addEventListener('click', function(){
-        for(let parseTask of parseArray){
-            if(parseTask.id == task.dataset.id){
-                task.remove();
-                parseArray.splice(parseArray.indexOf(parseTask), 1);
-                localStorage.setItem('tasks', JSON.stringify(parseArray));
-            };
-        };
-    }));
+function changeStatusTask(){
+    taskHandler('.main__done-btn', (task, parseTask, parseArray) => {
+        if(parseTask.status == 'active'){
+            parseTask.status = 'done';
+            localStorage.setItem('tasks', JSON.stringify(parseArray));
+            changeStatusElement(task, parseTask.status); 
+        } else{
+            parseTask.status = 'active';
+            localStorage.setItem('tasks', JSON.stringify(parseArray));
+            changeStatusElement(task, parseTask.status);
+        }
+    });
 }
 
-
+function deleteTask(){
+    taskHandler('.main__remove-btn', (task, parseTask, parseArray) => {
+        task.remove();
+        parseArray.splice(parseArray.indexOf(parseTask), 1);
+        localStorage.setItem('tasks', JSON.stringify(parseArray));        
+    });
+}
 
 UIELEMENTS.inputsForm.addEventListener("submit", createTask);
 

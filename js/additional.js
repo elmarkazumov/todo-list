@@ -25,3 +25,16 @@ export function selectBackgroundColor(){
         document.body.style.backgroundColor = JSON.parse(localStorage.getItem('backgroundColor'));
     }
 }
+
+export function taskHandler(operationSelector, callback){
+    const taskElement = document.querySelectorAll(".main__task");
+    const parseArray = JSON.parse(localStorage.getItem('tasks'));
+
+    taskElement.forEach(task => task.querySelector(operationSelector).addEventListener('click', function(){
+        for(let parseTask of parseArray){
+            if(parseTask.id == task.dataset.id){
+                callback(task, parseTask, parseArray);
+            };
+        };
+    }));
+}

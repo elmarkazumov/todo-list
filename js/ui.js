@@ -1,7 +1,7 @@
 import {UIELEMENTS} from './const.js';
 
 export function addTaskInDOM(valueTask, createDateTask, id, key){
-    const div = document.createElement('div');
+    const div = document.createElement('div'); // сделать с помощью template
     div.setAttribute('data-id', id);
     div.classList = 'main__task';
 
@@ -17,10 +17,19 @@ export function addTaskInDOM(valueTask, createDateTask, id, key){
     text.textContent = valueTask;
     const createDate = document.createElement('span');
     createDate.textContent = createDateTask;
+
+    const changeButton = document.createElement('span');
+    changeButton.textContent = 'I';
+    changeButton.classList = 'main__change-btn';
+
+    const doneButton = document.createElement('span');
+    doneButton.textContent = 'V';
+    doneButton.classList = 'main__done-btn';
+
     const closeButton = document.createElement('span');
     closeButton.textContent = 'X';
     closeButton.classList = 'main__remove-btn';
-    div.append(text, createDate, closeButton);
+    div.append(text, createDate, changeButton, doneButton, closeButton);
     UIELEMENTS.taskBlock.append(div);
 };
 
@@ -41,6 +50,14 @@ export function editElement(taskElement, text, callback){
     });
 };
 
+export function changeStatusElement(task, status){
+    if(status === 'done'){
+        task.classList.add('main__done');
+    } else{
+        task.classList.remove('main__done');
+    }
+}
+
 export function changeBackgroundColor(){
 
     document.addEventListener('click', function(event){
@@ -56,4 +73,5 @@ export function changeBackgroundColor(){
         };
     });
 };
+
 changeBackgroundColor();
