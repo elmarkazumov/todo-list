@@ -13,23 +13,11 @@ export function addTaskInDOM(valueTask, createDateTask, id, key){
         div.classList.add('standard-task');
     }
 
-    const text = document.createElement('p');
-    text.textContent = valueTask;
-    const createDate = document.createElement('span');
-    createDate.textContent = createDateTask;
+    div.append(messageTemplate.content.cloneNode(true));
 
-    const changeButton = document.createElement('span');
-    changeButton.textContent = 'I';
-    changeButton.classList = 'main__change-btn';
+    div.querySelector('p').textContent = valueTask;
+    div.querySelector('span').textContent = createDateTask;
 
-    const doneButton = document.createElement('span');
-    doneButton.textContent = 'V';
-    doneButton.classList = 'main__done-btn';
-
-    const closeButton = document.createElement('span');
-    closeButton.textContent = 'X';
-    closeButton.classList = 'main__remove-btn';
-    div.append(text, createDate, changeButton, doneButton, closeButton);
     UIELEMENTS.taskBlock.append(div);
 };
 

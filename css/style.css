@@ -145,3 +145,7 @@ body{
 .main__done{
     color: #FF2D55;
 }
+
+img{
+    width: 22px;
+}
